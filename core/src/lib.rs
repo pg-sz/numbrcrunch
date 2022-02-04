@@ -12,11 +12,11 @@ enum Expression {
     Function(String, Box<[Expression]>)
 }
 
-trait Eval {
+trait Evaluable {
     fn eval(&self, variable_repository: &VariableRepository) -> f64;
 }
 
-impl Eval for Expression {
+impl Evaluable for Expression {
     fn eval(&self, variable_repository: &VariableRepository) -> f64 {
         match self {
             Expression::Value(x) => *x,
@@ -33,7 +33,7 @@ impl Eval for Expression {
 #[cfg(test)]
 mod tests {
     use std::collections::HashMap;
-    use crate::{Eval, Expression, VariableRepository};
+    use crate::{Evaluable, Expression, VariableRepository};
 
     #[test]
     fn it_value() {
