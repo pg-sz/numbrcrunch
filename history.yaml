@@ -1,0 +1,24 @@
+variables:
+  x: 1
+  y: 2
+history:
+  - raw: x + y
+    tree:
+      add:
+        - var: x
+        - var: y
+  - raw: exp(-10)
+    tree:
+      exp:
+        negate:
+          val: 10
+  - raw: x=1
+    tree:
+      equal:
+        - var: x
+        - val: 1
+  - raw: y=2
+    tree:
+      equal:
+        - var: y
+        - val: 2
