@@ -1,4 +1,5 @@
 use std::collections::{HashMap};
+use std::env::var;
 
 type VariableRepository<'a> = HashMap<&'a str, f64>;
 
@@ -9,7 +10,7 @@ enum Expression {
     Subtract(Box<Expression>, Box<Expression>),
     Multiply(Box<Expression>, Box<Expression>),
     Divide(Box<Expression>, Box<Expression>),
-    Function(String, Box<[Expression]>)
+    Exponential(Box<Expression>)
 }
 
 trait Evaluable {
@@ -25,7 +26,7 @@ impl Evaluable for Expression {
             Expression::Subtract(lhs, rhs) => lhs.eval(variable_repository) - rhs.eval(variable_repository),
             Expression::Multiply(lhs, rhs) => lhs.eval(variable_repository) * rhs.eval(variable_repository),
             Expression::Divide(numerator, denominator) => numerator.eval(variable_repository) / denominator.eval(variable_repository),
-            Expression::Function(_, _) => 0.0, // TODO: plan function mapper
+            Expression::Exponential(argument) => argument.eval(variable_repository).exp()
         }
     }
 }
@@ -95,5 +96,13 @@ mod tests {
         let result = Expression::Variable("x".to_string());
 
         assert_eq!(1.0, result.eval(&repository));
+    }
+
+    #[test]
+    fn it_test_exponential() {
+        let repository: VariableRepository = VariableRepository::new();
+        let variable = Expression::Value(0.0);
+
+        assert_eq!(1.0, Expression::Exponential(Box::new(variable)).eval(&repository));
     }
 }
