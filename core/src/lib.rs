@@ -1,5 +1,4 @@
 use std::collections::{HashMap};
-use std::env::var;
 
 type VariableRepository<'a> = HashMap<&'a str, f64>;
 
